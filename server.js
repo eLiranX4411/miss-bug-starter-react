@@ -11,6 +11,7 @@ app.use(cookieParser())
 app.get('/', (req, res) => res.send('<h1> Hello </h1>'))
 app.listen(3030, () => console.log('Server ready at port 3030'))
 
+// Service Homepage - All Data (bugs)
 app.get('/api/bug', (req, res) => {
   bugService
     .query()
@@ -21,8 +22,31 @@ app.get('/api/bug', (req, res) => {
     })
 })
 
+// Service Crud Save / Create Above ID!
+app.get('/api/bug/save', (req, res) => {
+  console.log(req.body)
+
+  const bugToSave = {
+    _id: req.query._id,
+    title: req.query.title,
+    description: req.query.description,
+    severity: +req.query.severity,
+    createdAt: +req.query.createdAt
+  }
+
+  bugService
+    .save(bugToSave)
+    .then((savedBug) => res.send(savedBug))
+    .catch((err) => {
+      loggerService.error('Cannot save bug', err)
+      res.status(500).send('Cannot save bug', err)
+    })
+})
+
+// Service Crud BY ID
 app.get('/api/bug/:bugId', (req, res) => {
   const { bugId } = req.params
+
   bugService
     .getById(bugId)
     .then((bug) => res.send(bug))
@@ -32,5 +56,15 @@ app.get('/api/bug/:bugId', (req, res) => {
     })
 })
 
-app.get('/api/bug/:bugId/remove', (req, res) => {})
-app.get('/api/bug/save', (req, res) => {})
+// Service Crud REMOVE
+app.get('/api/bug/:bugId/remove', (req, res) => {
+  const { bugId } = req.params
+
+  bugService
+    .remove(bugId)
+    .then((bug) => res.send(bug))
+    .catch((err) => {
+      loggerService.error(err)
+      res.status(500).send(err)
+    })
+})

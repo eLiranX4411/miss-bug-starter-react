@@ -8,10 +8,10 @@ const app = express()
 // app.use(express.static('public'))
 app.use(cookieParser())
 
-app.get('/', (req, res) => res.send('<h1> Hello </h1>'))
-app.listen(3030, () => console.log('Server ready at port 3030'))
+// app.get('/', (req, res) => res.send('<h1> Hello </h1>'))
+// app.listen(3030, () => console.log('Server ready at port 3030'))
 
-// Service Homepage - All Data (bugs)
+// SERVER HOMEPAGE - All Data (bugs)
 app.get('/api/bug', (req, res) => {
   bugService
     .query()
@@ -22,7 +22,7 @@ app.get('/api/bug', (req, res) => {
     })
 })
 
-// Service Crud Save / Create Above ID!
+// SERVER CRUD SAVE / CREATE - Above ID!
 app.get('/api/bug/save', (req, res) => {
   console.log(req.body)
 
@@ -43,7 +43,7 @@ app.get('/api/bug/save', (req, res) => {
     })
 })
 
-// Service Crud BY ID
+// SERVER CRUD BY ID
 app.get('/api/bug/:bugId', (req, res) => {
   const { bugId } = req.params
 
@@ -56,7 +56,7 @@ app.get('/api/bug/:bugId', (req, res) => {
     })
 })
 
-// Service Crud REMOVE
+// SERVER CRUD REMOVE
 app.get('/api/bug/:bugId/remove', (req, res) => {
   const { bugId } = req.params
 
@@ -68,3 +68,12 @@ app.get('/api/bug/:bugId/remove', (req, res) => {
       res.status(500).send(err)
     })
 })
+
+// SERVER LOGG PAGE
+app.get('/api/logs', (req, res) => {
+  const path = process.cwd()
+  res.sendFile(path + '/logs/backend.log')
+})
+
+const port = 3030
+app.listen(port, () => loggerService.info(`Server listening on port http://127.0.0.1:${port}/`))

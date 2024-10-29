@@ -5,7 +5,7 @@ import { bugService } from './services/bug.service.js'
 
 const app = express()
 
-// app.use(express.static('public'))
+app.use(express.static('public'))
 app.use(cookieParser())
 
 // app.get('/', (req, res) => res.send('<h1> Hello </h1>'))

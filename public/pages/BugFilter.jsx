@@ -17,7 +17,7 @@ export function BugFilter({ filterBy, onSetFilter }) {
     onSetFilter(updatedFilter)
   }
 
-  console.log(filterToEdit)
+  // console.log(filterToEdit)
 
   const { title, severity } = filterToEdit
 

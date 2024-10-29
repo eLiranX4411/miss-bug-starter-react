@@ -5,6 +5,7 @@ const BASE_URL = '/api/bug/'
 export const bugService = {
   query,
   getById,
+  visitById,
   save,
   remove,
   getDefaultBugFilter
@@ -33,6 +34,10 @@ function query(filterBy = {}) {
 
 function getById(bugId) {
   return axios.get(BASE_URL + bugId).then((res) => res.data)
+}
+
+function visitById(bugId) {
+  return axios.get(BASE_URL + 'visit/' + bugId).then((res) => res.data)
 }
 
 function remove(bugId) {

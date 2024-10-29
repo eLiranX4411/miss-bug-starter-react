@@ -1,5 +1,6 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
+
 import { loggerService } from './services/logger.service.js'
 import { bugService } from './services/bug.service.js'
 
@@ -24,8 +25,6 @@ app.get('/api/bug', (req, res) => {
 
 // SERVER CRUD SAVE / CREATE - Above ID!
 app.get('/api/bug/save', (req, res) => {
-  console.log(req.body)
-
   const bugToSave = {
     _id: req.query._id,
     title: req.query.title,
@@ -67,6 +66,23 @@ app.get('/api/bug/:bugId/remove', (req, res) => {
       loggerService.error(err)
       res.status(500).send(err)
     })
+})
+
+app.get('/visit/:bugId', (req, res) => {
+  const bugId = req.params.bugId
+  let visitedBugs = req.cookies.visitedBugs || []
+
+  if (!visitedBugs.includes(bugId)) {
+    visitedBugs.push(bugId)
+  }
+
+  if (visitedBugs.length > 3) {
+    return res.status(401).send('Wait for a bit')
+  }
+  res.cookie('visitedBugs', visitedBugs, { maxAge: 7000 })
+  console.log(`User visited the following bugs: [${visitedBugs}]`)
+
+  res.send(`You visited bug ${bugId}`)
 })
 
 // SERVER LOGG PAGE

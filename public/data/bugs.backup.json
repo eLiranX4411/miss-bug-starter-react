@@ -1,33 +1,51 @@
 [
   {
-    "_id": "abc123",
-    "title": "Cannot save a new car",
+    "_id": "abc121",
+    "title": "Buggy abc121",
     "description": "problem when clicking Save",
     "severity": 3,
-    "createdAt": 1542107359454
+    "createdAt": 1730829942256,
+    "labels": ["critical", "need-CR", "dev-branch"]
   },
-
+  {
+    "_id": "abc122",
+    "title": "Buggy abc122",
+    "description": "Add your name in the body",
+    "severity": 4,
+    "createdAt": 1730829942256,
+    "labels": ["critical", "need-CR", "dev-branch"]
+  },
+  {
+    "_id": "abc123",
+    "title": "Buggy abc123",
+    "description": "problem when clicking Save",
+    "severity": 2,
+    "createdAt": 1730829942256,
+    "labels": ["critical", "need-CR", "dev-branch"]
+  },
   {
     "_id": "abc124",
-    "title": "Cannot save a new car",
-    "description": "problem when clicking Save",
-    "severity": 3,
-    "createdAt": 1542107359454
+    "title": "Buggy abc124",
+    "description": "Add your name in the body",
+    "severity": 4,
+    "createdAt": 1730829942256,
+    "labels": ["critical", "need-CR", "dev-branch"]
   },
-
   {
     "_id": "abc125",
-    "title": "Cannot save a new car",
+    "title": "Buggy abc125",
     "description": "problem when clicking Save",
-    "severity": 3,
-    "createdAt": 1542107359454
+    "severity": 4,
+    "createdAt": 1730829942256,
+    "updatedAt": 1730829942256,
+    "labels": ["critical", "-CR", "dev-branch"]
   },
-
   {
     "_id": "abc126",
-    "title": "Cannot save a new car",
+    "title": "Buggy abc126",
     "description": "problem when clicking Save",
     "severity": 3,
-    "createdAt": 1542107359454
+    "createdAt": 1730829942256,
+    "labels": ["critical", "need-CR", "dev-branch"]
   }
 ]

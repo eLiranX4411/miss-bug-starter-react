@@ -26,6 +26,10 @@ export function BugIndex() {
     setFilterBy((prevFilter) => ({ ...prevFilter, ...filterBy }))
   }
 
+  function onChangePageIdx(diff) {
+    setFilterBy((prevFilter) => ({ ...prevFilter, pageIdx: prevFilter.pageIdx + diff }))
+  }
+
   function onRemoveBug(bugId) {
     bugService
       .remove(bugId)
@@ -84,9 +88,14 @@ export function BugIndex() {
     <main>
       <section className='info-actions'>
         <h3>Bugs App</h3>
+        <div className='pageination-buttons'>
+          <button onClick={() => onChangePageIdx(1)}>Next Page</button>
+          <button onClick={() => onChangePageIdx(-1)}>Prev Page</button>
+        </div>
         <BugFilter filterBy={filterBy} onSetFilter={onSetFilter} />
         <button onClick={onAddBug}>Add Bug ⛐</button>
       </section>
+
       <main>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
       </main>

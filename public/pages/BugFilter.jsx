@@ -7,19 +7,21 @@ export function BugFilter({ filterBy, onSetFilter }) {
     const field = target.name
     let value = target.value
 
-    if (field === 'severity') {
+    if (field === 'severity' || field === 'sortDir') {
       value = +value
     }
-    // setFilterToEdit((prevFilter) => ({ ...prevFilter, [field]: value }))
     const updatedFilter = { ...filterToEdit, [field]: value }
-    setFilterToEdit(updatedFilter)
+    console.log(updatedFilter)
 
+    setFilterToEdit(updatedFilter)
     onSetFilter(updatedFilter)
+
+    // setFilterToEdit((prevFilter) => ({ ...prevFilter, [field]: value }))
   }
 
   // console.log(filterToEdit)
 
-  const { title, severity } = filterToEdit
+  const { title, severity, createdAt, sortBy, sortDir, labels } = filterToEdit
 
   return (
     <section className='bug-filter-container'>
@@ -32,6 +34,36 @@ export function BugFilter({ filterBy, onSetFilter }) {
           <option value={4}>severity: 4</option>
           <option value={5}>severity: 5</option>
         </select>
+      </div>
+
+      <div className='filter-severity'>
+        <select onChange={handleChange} value={labels} name='labels'>
+          <option value={''}>Filter By Labels:</option>
+          <option value={'critical'}>Critical</option>
+          <option value={'need-CR'}>Need-CR</option>
+          <option value={'dev-branch'}>Dev-Branch</option>
+        </select>
+      </div>
+
+      <div className='filter-severity'>
+        <select onChange={handleChange} value={sortBy} name='sortBy'>
+          <option>Sort By:</option>
+          <option value={title}>title</option>
+          <option value={severity}>severity</option>
+          <option value={createdAt}>createdAt</option>
+        </select>
+      </div>
+
+      <div className='filter-severity'>
+        <label>
+          Ascending:
+          <input type='radio' onChange={handleChange} value={1} name='sortDir' checked={sortDir === 1} />
+        </label>
+
+        <label>
+          Descending:
+          <input type='radio' onChange={handleChange} value={-1} name='sortDir' checked={sortDir === -1} />
+        </label>
       </div>
 
       <div className='filter-title'>

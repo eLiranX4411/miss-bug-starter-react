@@ -6,12 +6,15 @@ import cookieParser from 'cookie-parser'
 import { loggerService } from './services/logger.service.js'
 import { bugService } from './services/bug.service.js'
 import { utilService } from './services/util.service.js'
+import { userService } from './services/user.service.js'
 
 const app = express()
 
 app.use(express.static('public'))
 app.use(cookieParser())
 app.use(express.json())
+
+// Bugs Routes------------------------------------
 
 // SERVER HOMEPAGE - All Data (bugs) / LIST
 app.get('/api/bug', (req, res) => {
@@ -109,6 +112,79 @@ app.delete('/api/bug/:bugId', (req, res) => {
 app.get('/api/logs', (req, res) => {
   const path = process.cwd()
   res.sendFile(path + '/logs/backend.log')
+})
+
+// User Routes ------------------------------------
+
+app.get('/api/user', (req, res) => {
+  userService
+    .query()
+    .then((users) => res.send(users))
+    .catch((err) => {
+      loggerService.error('Cannot load users', err)
+      res.status(400).send('Cannot load users')
+    })
+})
+
+app.get('/api/user/:userId', (req, res) => {
+  const { userId } = req.params
+
+  userService
+    .getById(userId)
+    .then((user) => res.send(user))
+    .catch((err) => {
+      loggerService.error('Cannot load user', err)
+      res.status(400).send('Cannot load user')
+    })
+})
+
+// User Auth Api Routes ------------------------------------
+
+app.post('/api/auth/signup', (req, res) => {
+  // console.log(req.body)
+
+  const credentials = {
+    username: req.body.username || '',
+    fullname: req.body.fullname || ''
+  }
+
+  userService
+    .save(credentials)
+    .then((userCredentials) => {
+      const loginToken = userService.getLoginToken(userCredentials)
+      res.cookie('loginToken', loginToken)
+      res.send(userCredentials)
+    })
+    .catch((err) => {
+      loggerService.error('Cannot add user', err)
+      res.status(400).send('Cannot add user', err)
+    })
+})
+
+app.post('/api/auth/login', (req, res) => {
+  const credentials = {
+    username: req.body.username || '',
+    fullname: req.body.fullname || ''
+  }
+
+  userService
+    .checkLogin(credentials)
+    .then((userCredentials) => {
+      if (userCredentials) {
+        const loginToken = userService.getLoginToken(userCredentials)
+        res.cookie('loginToken', loginToken)
+        res.send(user)
+      }
+    })
+    .catch((err) => {
+      loggerService.error('User Cannot login ', err)
+      res.status(400).send('User cannot login ', err)
+    })
+})
+
+app.post('/api/auth/logout', (req, res) => {
+  res.clearCookie('loginToken')
+  res.send('logged-out!')
 })
 
 // SERVER PORT LISTENER

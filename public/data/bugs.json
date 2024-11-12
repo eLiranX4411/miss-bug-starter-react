@@ -5,7 +5,11 @@
     "description": "problem when clicking Save",
     "severity": 3,
     "createdAt": 1730829942256,
-    "labels": ["critical", "need-CR", "dev-branch"]
+    "labels": ["critical", "need-CR", "dev-branch"],
+    "creator": {
+      "_id": "u101",
+      "fullname": "Puki Ja"
+    }
   },
   {
     "_id": "abc122",
@@ -13,7 +17,11 @@
     "description": "Add your name in the body",
     "severity": 4,
     "createdAt": 1730829942256,
-    "labels": ["critical", "need-CR", "dev-branch"]
+    "labels": ["critical", "need-CR", "dev-branch"],
+    "creator": {
+      "_id": "u102",
+      "fullname": "Muki Ba"
+    }
   },
   {
     "_id": "abc123",
@@ -21,7 +29,11 @@
     "description": "problem when clicking Save",
     "severity": 2,
     "createdAt": 1730829942256,
-    "labels": ["need-CR", "dev-branch"]
+    "labels": ["need-CR", "dev-branch"],
+    "creator": {
+      "_id": "u103",
+      "fullname": "Kiki Ki"
+    }
   },
   {
     "_id": "abc124",
@@ -29,23 +41,10 @@
     "description": "Add your name in the body",
     "severity": 4,
     "createdAt": 1730829942256,
-    "labels": ["need-CR", "dev-branch"]
-  },
-  {
-    "_id": "abc125",
-    "title": "Buggy abc125",
-    "description": "problem when clicking Save",
-    "severity": 4,
-    "createdAt": 1730829942256,
-    "updatedAt": 1730829942256,
-    "labels": ["need-CR", "dev-branch"]
-  },
-  {
-    "_id": "abc126",
-    "title": "Buggy abc126",
-    "description": "problem when clicking Save",
-    "severity": 3,
-    "createdAt": 1730829942256,
-    "labels": ["critical", "need-CR", "dev-branch"]
+    "labels": ["need-CR", "dev-branch"],
+    "creator": {
+      "_id": "u104",
+      "fullname": "Lili Mi"
+    }
   }
 ]

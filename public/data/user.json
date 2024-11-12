@@ -19,5 +19,12 @@
     "fullname": "Kiki Ki",
     "password": "kiki",
     "isAdmin": false
+  },
+  {
+    "_id": "u104",
+    "username": "Lili",
+    "fullname": "Lili Mi",
+    "password": "lili",
+    "isAdmin": false
   }
 ]

@@ -25,7 +25,7 @@ function query() {
 }
 
 function getById(userId) {
-  var user = users.find((user) => user._id === userId)
+  let user = users.find((user) => user._id === userId)
   if (!user) return Promise.reject('User not found!')
 
   user = {
@@ -37,23 +37,61 @@ function getById(userId) {
   return Promise.resolve(user)
 }
 
-function save(userToSave) {}
+function save(userToSave) {
+  // const userPass = userToSave.password
+  // const encryptedPass = cryptr.encrypt(userPass)
+  // const decryptedPass = cryptr.decrypt(encryptedPass)
+  // if(encryptedPass === decryptedPass)
+  userToSave.isAdmin = false
+  userToSave._id = utilService.makeId()
+  users.push(userToSave)
+
+  return _saveUserToFile().then(() => ({
+    _id: userToSave._id,
+    fullname: userToSave.fullname,
+    isAdmin: userToSave.isAdmin
+  }))
+}
 
 function remove(userId) {
-  users = users.filter((user) => user._id !== userId)
+  const userIdx = users.findIndex((user) => user._id === userId)
+  if (userIdx < 0) return Promise.reject('Cannot find user - ' + userId)
+  users.splice(userIdx, 1)
+
   return _saveUserToFile()
 }
 
-function checkLogin() {}
+function checkLogin({ username, password }) {
+  // You might want to remove the password validation for dev
+  // && user.password === password
+  let user = users.find((user) => user.username === username)
+  if (user) {
+    user = {
+      _id: user._id,
+      fullname: user.fullname,
+      isAdmin: user.isAdmin
+    }
+  }
+  return Promise.resolve(user)
+}
 
-function getLoginToken() {}
+function getLoginToken(user) {
+  const str = JSON.stringify(user)
+  const encryptedStr = cryptr.encrypt(str)
+  return encryptedStr
+}
 
-function validateToken() {}
+function validateToken(token) {
+  if (!token) return null
+  const str = cryptr.decrypt(token)
+  const user = JSON.parse(str)
+  return user
+}
 
 function _saveUserToFile() {
   return new Promise((resolve, reject) => {
     const data = JSON.stringify(users, null, 4)
-    fs.writeFile('public/data/users.json', data, (err) => {
+    fs.writeFile('public/data/user.json', data, (err) => {
       if (err) {
         return reject(err)
       }

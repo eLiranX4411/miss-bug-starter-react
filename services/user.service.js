@@ -38,10 +38,6 @@ function getById(userId) {
 }
 
 function save(userToSave) {
-  // const userPass = userToSave.password
-  // const encryptedPass = cryptr.encrypt(userPass)
-  // const decryptedPass = cryptr.decrypt(encryptedPass)
-  // if(encryptedPass === decryptedPass)
   userToSave.isAdmin = false
   userToSave._id = utilService.makeId()
   users.push(userToSave)

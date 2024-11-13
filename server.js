@@ -45,16 +45,20 @@ app.get('/api/bug', (req, res) => {
 // POST
 
 app.post('/api/bug', (req, res) => {
+  const user = userService.validateToken(req.cookies.loginToken)
+  if (!user) return res.status(401).send('Unauthenticated')
+
   const bugToSave = {
     title: req.body.title || '',
     description: req.body.description || '',
     severity: +req.body.severity || 0,
     createdAt: +req.body.createdAt || 0,
-    labels: req.body.labels || []
+    labels: req.body.labels || [],
+    creator: req.body.creator || {}
   }
 
   bugService
-    .save(bugToSave)
+    .save(bugToSave, user)
     .then((savedBug) => res.send(savedBug))
     .catch((err) => {
       loggerService.error('Cannot add bug', err)

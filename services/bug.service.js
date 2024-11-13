@@ -58,14 +58,14 @@ function query(filterBy, sortBy) {
   return Promise.resolve(filteredBugs)
 }
 
-function save(bugToSave) {
+function save(bugToSave, user) {
   const bugIdx = bugs.findIndex((bug) => bug._id === bugToSave._id)
 
   if (bugToSave._id) {
     bugs[bugIdx] = { ...bugs[bugIdx], ...bugToSave, updatedAt: Date.now() }
     console.log('put: ', bugToSave)
   } else {
-    bugToSave = { ...bugToSave, _id: utilService.makeId(), updatedAt: Date.now() }
+    bugToSave = { ...bugToSave, _id: utilService.makeId(), updatedAt: Date.now(), creator: { _id: utilService.makeId(), fullname: user.fullname } }
     console.log('post: ', bugToSave)
     bugs.unshift(bugToSave)
   }

@@ -21,6 +21,10 @@ export const userService = {
   getEmptyCredentials
 }
 
+function getById(userId) {
+  return axios.get(BASE_URL + userId).then((res) => res.data)
+}
+
 function signup({ username, password, fullname }) {
   return axios
     .post(BASE_AUTH_URL + 'signup', { username, password, fullname })
@@ -47,8 +51,10 @@ function logout() {
   })
 }
 
-function getById(userId) {
-  return axios.get(BASE_URL + userId).then((res) => res.data)
+function _setLoggedinUser(user) {
+  const userToSave = { _id: user._id, fullname: user.fullname, isAdmin: user.isAdmin }
+  sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(userToSave))
+  return userToSave
 }
 
 function getLoggedinUser() {
@@ -61,10 +67,4 @@ function getEmptyCredentials() {
     password: '',
     fullname: ''
   }
-}
-
-function _setLoggedinUser(user) {
-  const userToSave = { _id: user._id, fullname: user.fullname, isAdmin: user.isAdmin }
-  sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(userToSave))
-  return userToSave
 }

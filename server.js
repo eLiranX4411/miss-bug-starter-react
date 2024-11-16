@@ -46,7 +46,11 @@ app.get('/api/bug', (req, res) => {
 
 app.post('/api/bug', (req, res) => {
   const user = userService.validateToken(req.cookies.loginToken)
-  if (!user) return res.status(401).send('Unauthenticated')
+  console.log('Cookies:', req.cookies)
+
+  if (!user) {
+    return res.status(401).send('Unauthenticated: Please log in to add a bug')
+  }
 
   const bugToSave = {
     title: req.body.title || '',
@@ -54,7 +58,7 @@ app.post('/api/bug', (req, res) => {
     severity: +req.body.severity || 0,
     createdAt: +req.body.createdAt || 0,
     labels: req.body.labels || [],
-    creator: req.body.creator || {}
+    creator: req.body.creator
   }
 
   bugService
@@ -69,21 +73,28 @@ app.post('/api/bug', (req, res) => {
 // PUT
 
 app.put('/api/bug/:bugId', (req, res) => {
+  const user = userService.validateToken(req.cookies.loginToken)
+
+  if (!user) {
+    return res.status(401).send({ error: 'Unauthenticated: Please log in' })
+  }
+
   const bugToSave = {
-    _id: req.body._id || '',
+    _id: req.params.bugId,
     title: req.body.title || '',
     description: req.body.description || '',
     severity: +req.body.severity || 0,
     createdAt: +req.body.createdAt || 0,
-    labels: req.body.labels || []
+    labels: req.body.labels || [],
+    creator: req.body.creator || {}
   }
 
   bugService
-    .save(bugToSave)
+    .save(bugToSave, user)
     .then((savedBug) => res.send(savedBug))
     .catch((err) => {
       loggerService.error('Cannot edit bug', err)
-      res.status(400).send('Cannot edit bug', err)
+      res.status(400).send({ error: 'Cannot edit bug', details: err })
     })
 })
 
@@ -103,10 +114,11 @@ app.get('/api/bug/:bugId', visitedBugs, (req, res) => {
 // DELETE
 
 app.delete('/api/bug/:bugId', (req, res) => {
+  const user = userService.validateToken(req.cookies.loginToken)
   const { bugId } = req.params
 
   bugService
-    .remove(bugId)
+    .remove(bugId, user)
     .then((bug) => res.send(bug))
     .catch((err) => {
       loggerService.error(err)

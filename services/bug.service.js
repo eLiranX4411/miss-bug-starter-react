@@ -62,10 +62,15 @@ function save(bugToSave, user) {
   const bugIdx = bugs.findIndex((bug) => bug._id === bugToSave._id)
 
   if (bugToSave._id) {
+    if (!user.isAdmin && bugs[bugIdx].creator._id !== user._id) {
+      console.log(`Bug does not belong to user: ${user._id}`)
+      return Promise.reject('Not your bug')
+    }
+
     bugs[bugIdx] = { ...bugs[bugIdx], ...bugToSave, updatedAt: Date.now() }
     console.log('put: ', bugToSave)
   } else {
-    bugToSave = { ...bugToSave, _id: utilService.makeId(), updatedAt: Date.now(), creator: { _id: utilService.makeId(), fullname: user.fullname } }
+    bugToSave = { ...bugToSave, _id: utilService.makeId(), createdAt: Date.now(), creator: { _id: user._id, fullname: user.fullname } }
     console.log('post: ', bugToSave)
     bugs.unshift(bugToSave)
   }
@@ -79,8 +84,14 @@ function getById(bugId) {
   return Promise.resolve(bug)
 }
 
-function remove(bugId) {
+function remove(bugId, user) {
   const bugIdx = bugs.findIndex((bug) => bug._id === bugId)
+
+  if (!user.isAdmin && bugs[bugIdx].creator._id !== user._id) {
+    console.log(`Bug does not belong to user: ${user._id}`)
+    return Promise.reject('Not your bug')
+  }
+
   if (bugIdx < 0) return Promise.reject('Cannot find bug - ' + bugId)
   bugs.splice(bugIdx, 1)
 

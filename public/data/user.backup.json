@@ -1,10 +1,17 @@
 [
   {
+    "_id": "u100",
+    "username": "admin",
+    "fullname": "Admin Admin",
+    "password": "admin",
+    "isAdmin": true
+  },
+  {
     "_id": "u101",
     "username": "puki",
     "fullname": "Puki Ja",
     "password": "puki",
-    "isAdmin": true
+    "isAdmin": false
   },
   {
     "_id": "u102",
@@ -26,11 +33,5 @@
     "fullname": "Lili Mi",
     "password": "lili",
     "isAdmin": false
-  },
-  {
-    "username": "Lasa",
-    "password": "lasa",
-    "fullname": "Lasa sa",
-    "_id": "HTv9u"
   }
 ]
